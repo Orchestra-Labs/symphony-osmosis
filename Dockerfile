@@ -62,6 +62,20 @@ FROM ${RUNNER_IMAGE}
 
 COPY --from=builder /osmosis/build/symphonyd /bin/symphonyd
 
+# Install necessary packages and configure nginx
+RUN apt-get update && \
+    apt-get install -y nginx && \
+    cp /path/to/symphonychain.conf /etc/nginx/sites-available/symphonychain.conf && \
+    ln -s /etc/nginx/sites-available/symphonychain.conf /etc/nginx/sites-enabled/ && \
+    nginx -t && \
+    systemctl reload nginx
+
+# Configure iptables
+RUN iptables -A INPUT -p tcp --dport 26654 -s 127.0.0.1 -j ACCEPT && \
+    iptables -A INPUT -p tcp --dport 26654 -j DROP && \
+    iptables -A INPUT -p tcp --dport 1317 -s 127.0.0.1 -j ACCEPT && \
+    iptables -A INPUT -p tcp --dport 1317 -j DROP
+
 ENV HOME /osmosis
 WORKDIR $HOME
 
