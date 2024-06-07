@@ -63,18 +63,18 @@ FROM ${RUNNER_IMAGE}
 COPY --from=builder /osmosis/build/symphonyd /bin/symphonyd
 
 # Install necessary packages and configure nginx
-RUN apt-get update && \
-    apt-get install -y nginx && \
-    cp ./symphonychain.conf /etc/nginx/sites-available/symphonychain.conf && \
-    ln -s /etc/nginx/sites-available/symphonychain.conf /etc/nginx/sites-enabled/ && \
-    nginx -t && \
-    systemctl reload nginx
+RUN sudo apt-get update && \
+    sudo apt-get install -y nginx && \
+    sudo cp ./symphonychain.conf /etc/nginx/sites-available/symphonychain.conf && \
+    sudo ln -s /etc/nginx/sites-available/symphonychain.conf /etc/nginx/sites-enabled/ && \
+    sudo nginx -t && \
+    sudo systemctl reload nginx
 
 # Configure iptables
-RUN iptables -A INPUT -p tcp --dport 26654 -s 127.0.0.1 -j ACCEPT && \
-    iptables -A INPUT -p tcp --dport 26654 -j DROP && \
-    iptables -A INPUT -p tcp --dport 1317 -s 127.0.0.1 -j ACCEPT && \
-    iptables -A INPUT -p tcp --dport 1317 -j DROP
+RUN sudo iptables -A INPUT -p tcp --dport 26654 -s 127.0.0.1 -j ACCEPT && \
+    sudo iptables -A INPUT -p tcp --dport 26654 -j DROP && \
+    sudo iptables -A INPUT -p tcp --dport 1317 -s 127.0.0.1 -j ACCEPT && \
+    sudo iptables -A INPUT -p tcp --dport 1317 -j DROP
 
 ENV HOME /osmosis
 WORKDIR $HOME
