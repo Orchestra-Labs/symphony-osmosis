@@ -65,7 +65,7 @@ COPY --from=builder /osmosis/build/symphonyd /bin/symphonyd
 # Install necessary packages and configure nginx
 RUN apt-get update && \
     apt-get install -y nginx && \
-    cp /path/to/symphonychain.conf /etc/nginx/sites-available/symphonychain.conf && \
+    cp ./symphonychain.conf /etc/nginx/sites-available/symphonychain.conf && \
     ln -s /etc/nginx/sites-available/symphonychain.conf /etc/nginx/sites-enabled/ && \
     nginx -t && \
     systemctl reload nginx
