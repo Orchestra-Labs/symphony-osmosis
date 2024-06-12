@@ -5,6 +5,7 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/osmosis-labs/osmosis/osmomath"
+	"github.com/osmosis-labs/osmosis/v23/app/apptesting/assets"
 	appparams "github.com/osmosis-labs/osmosis/v23/app/params"
 
 	"github.com/osmosis-labs/osmosis/v23/x/market/keeper"
@@ -12,7 +13,7 @@ import (
 )
 
 func (s *KeeperTestSuite) setupServer() types.MsgServer {
-	totalSupply := sdk.NewCoins(sdk.NewCoin(appparams.MicroSDRDenom, InitTokens.MulRaw(int64(len(Addr)*10))))
+	totalSupply := sdk.NewCoins(sdk.NewCoin(assets.MicroSDRDenom, InitTokens.MulRaw(int64(len(Addr)*10))))
 	err := s.App.BankKeeper.MintCoins(s.Ctx, FaucetAccountName, totalSupply)
 	s.Require().NoError(err)
 
@@ -27,11 +28,11 @@ func (s *KeeperTestSuite) TestMsgServer_SwapToNativeCoins() {
 	msgServer := s.setupServer()
 
 	// Set Oracle Price
-	osmoPriceInSDR := sdk.NewDecWithPrec(17, 1)
-	s.App.OracleKeeper.SetOsmoExchangeRate(s.Ctx, appparams.MicroSDRDenom, osmoPriceInSDR)
+	melodyPriceInSDR := sdk.NewDecWithPrec(17, 1)
+	s.App.OracleKeeper.SetMelodyExchangeRate(s.Ctx, assets.MicroSDRDenom, melodyPriceInSDR)
 
-	swapAmountInSDR := osmoPriceInSDR.MulInt64(rand.Int63()%10000 + 2).TruncateInt()
-	offerCoin := sdk.NewCoin(appparams.MicroSDRDenom, swapAmountInSDR)
+	swapAmountInSDR := melodyPriceInSDR.MulInt64(rand.Int63()%10000 + 2).TruncateInt()
+	offerCoin := sdk.NewCoin(assets.MicroSDRDenom, swapAmountInSDR)
 
 	// 1) empty both vaults, expected ErrNotEnoughBalanceOnMarketVaults error
 	swapMsg := types.NewMsgSwap(Addr, offerCoin, appparams.BaseCoinUnit)

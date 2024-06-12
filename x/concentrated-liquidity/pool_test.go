@@ -523,7 +523,7 @@ func (s *KeeperTestSuite) TestDecreaseConcentratedPoolTickSpacing() {
 			s.SetupTest()
 			owner := s.TestAccs[0]
 
-			// Create OSMO <> USDC pool with tick spacing of 100
+			// Create MELODY <> USDC pool with tick spacing of 100
 			concentratedPool := s.PrepareConcentratedPoolWithCoinsAndFullRangePosition(ETH, USDC)
 
 			// Create a position in the pool that is divisible by the tick spacing
@@ -559,7 +559,7 @@ func (s *KeeperTestSuite) TestGetTotalPoolLiquidity() {
 	var (
 		defaultPoolCoinOne = sdk.NewCoin(USDC, osmomath.OneInt())
 		defaultPoolCoinTwo = sdk.NewCoin(ETH, osmomath.NewInt(2))
-		nonPoolCool        = sdk.NewCoin("uosmo", osmomath.NewInt(3))
+		nonPoolCool        = sdk.NewCoin("note", osmomath.NewInt(3))
 
 		defaultCoins = sdk.NewCoins(defaultPoolCoinOne, defaultPoolCoinTwo)
 	)
@@ -785,7 +785,7 @@ func (s *KeeperTestSuite) TestGetUserUnbondingPositions() {
 // - Ensure that the position accumulators are updated
 // - Ensures that the position 1 receives incentives  but not position 2
 func (s *KeeperTestSuite) TestMigrateAccumulatorToScalingFactor() {
-	const incentiveDenom = "uosmo"
+	const incentiveDenom = "note"
 
 	var emissionRatePerSecDec = osmomath.OneDec()
 

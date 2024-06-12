@@ -25,21 +25,17 @@ var (
 
 // Default parameter values
 const (
-	DefaultVotePeriod               = appparams.BlocksPerMinute / 2 // 30 seconds
+	DefaultVotePeriod               = appparams.BlocksPerMinute / 2 // 30 seconds, 7.5 * 4 seconds per block
 	DefaultSlashWindow              = appparams.BlocksPerWeek       // window for a week
 	DefaultRewardDistributionWindow = appparams.BlocksPerYear       // window for a year
 )
 
 // Default parameter values
 var (
-	DefaultVoteThreshold = sdk.NewDecWithPrec(50, 2) // 50%
-	DefaultRewardBand    = sdk.NewDecWithPrec(2, 2)  // 2% (-1, 1)
-	DefaultTobinTax      = sdk.NewDecWithPrec(25, 4) // 0.25%
-	DefaultWhitelist     = DenomList{
-		{Name: appparams.MicroSDRDenom, TobinTax: DefaultTobinTax},
-		{Name: appparams.StakeDenom, TobinTax: DefaultTobinTax},
-		{Name: appparams.MicroUSDDenom, TobinTax: DefaultTobinTax},
-	}
+	DefaultVoteThreshold     = sdk.NewDecWithPrec(50, 2) // 50%
+	DefaultRewardBand        = sdk.NewDecWithPrec(2, 2)  // 2% (-1, 1)
+	DefaultTobinTax          = sdk.NewDecWithPrec(25, 4) // 0.25%
+	DefaultWhitelist         = DenomList{}
 	DefaultSlashFraction     = sdk.NewDecWithPrec(1, 4) // 0.01%
 	DefaultMinValidPerWindow = sdk.NewDecWithPrec(5, 2) // 5%
 )

@@ -19,20 +19,13 @@ func (k Keeper) ComputeSwap(ctx sdk.Context, offerCoin sdk.Coin, askDenom string
 	if offerCoin.Denom == askDenom {
 		return sdk.DecCoin{}, sdk.ZeroDec(), errorsmod.Wrap(types.ErrRecursiveSwap, askDenom)
 	}
-
-	// Swap offer coin to base denom for simplicity of swap process
-	baseOfferDecCoin, err := k.ComputeInternalSwap(ctx, sdk.NewDecCoinFromCoin(offerCoin), appParams.MicroSDRDenom)
-	if err != nil {
-		return sdk.DecCoin{}, sdk.Dec{}, err
-	}
-
 	// Get swap amount based on the oracle price
-	retDecCoin, err = k.ComputeInternalSwap(ctx, baseOfferDecCoin, askDenom)
+	retDecCoin, err = k.ComputeInternalSwap(ctx, sdk.NewDecCoinFromCoin(offerCoin), askDenom)
 	if err != nil {
 		return sdk.DecCoin{}, sdk.Dec{}, err
 	}
 
-	// Terra => Terra swap
+	// Symphony => Symphony swap
 	// Apply only tobin tax without constant product spread
 	if offerCoin.Denom != appParams.BaseCoinUnit && askDenom != appParams.BaseCoinUnit {
 		var tobinTax sdk.Dec
@@ -56,42 +49,6 @@ func (k Keeper) ComputeSwap(ctx sdk.Context, offerCoin sdk.Coin, askDenom string
 		spread = tobinTax
 		return retDecCoin, spread, nil
 	}
-
-	basePool := k.BasePool(ctx)
-	minSpread := k.MinStabilitySpread(ctx)
-
-	// constant-product, which by construction is square of base(equilibrium) pool
-	cp := basePool.Mul(basePool)
-	osmosisPoolDelta := k.GetOsmosisPoolDelta(ctx)
-	terraPool := basePool.Add(osmosisPoolDelta)
-	lunaPool := cp.Quo(terraPool)
-
-	var offerPool sdk.Dec // base denom(usdr) unit
-	var askPool sdk.Dec   // base denom(usdr) unit
-	if offerCoin.Denom != appParams.BaseCoinUnit {
-		// Terra->Luna swap
-		offerPool = terraPool
-		askPool = lunaPool
-	} else {
-		// Luna->Terra swap
-		offerPool = lunaPool
-		askPool = terraPool
-	}
-
-	// Get cp(constant-product) based swap amount
-	// askBaseAmount = askPool - cp / (offerPool + offerBaseAmount)
-	// askBaseAmount is base denom(usdr) unit
-	askBaseAmount := askPool.Sub(cp.Quo(offerPool.Add(baseOfferDecCoin.Amount)))
-
-	// Both baseOffer and baseAsk are usdr units, so spread can be calculated by
-	// spread = (baseOfferAmt - baseAskAmt) / baseOfferAmt
-	baseOfferAmount := baseOfferDecCoin.Amount
-	spread = baseOfferAmount.Sub(askBaseAmount).Quo(baseOfferAmount)
-
-	if spread.LT(minSpread) {
-		spread = minSpread
-	}
-
 	return retDecCoin, spread, nil
 }
 
@@ -103,12 +60,12 @@ func (k Keeper) ComputeInternalSwap(ctx sdk.Context, offerCoin sdk.DecCoin, askD
 		return offerCoin, nil
 	}
 
-	offerRate, err := k.OracleKeeper.GetOsmoExchangeRate(ctx, offerCoin.Denom)
+	offerRate, err := k.OracleKeeper.GetMelodyExchangeRate(ctx, offerCoin.Denom)
 	if err != nil {
 		return sdk.DecCoin{}, errorsmod.Wrap(types.ErrNoEffectivePrice, offerCoin.Denom)
 	}
 
-	askRate, err := k.OracleKeeper.GetOsmoExchangeRate(ctx, askDenom)
+	askRate, err := k.OracleKeeper.GetMelodyExchangeRate(ctx, askDenom)
 	if err != nil {
 		return sdk.DecCoin{}, errorsmod.Wrap(types.ErrNoEffectivePrice, askDenom)
 	}

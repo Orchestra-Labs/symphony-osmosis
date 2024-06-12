@@ -18,8 +18,8 @@ help:
 	@echo "Usage:"
 	@echo "    make [command]"
 	@echo ""
-	@echo "  make build        	        Build osmosisd binary"
-	@echo "  make install        	    Install osmosisd binary"
+	@echo "  make build        	    	Build symphonyd binary"
+	@echo "  make install        	    Install symphonyd binary"
 	@echo "  make deps                  Show available deps commands"
 	@echo "  make proto                 Show available proto commands"
 	@echo "  make release               Show available release commands"
@@ -98,8 +98,8 @@ build_tags_comma_sep := $(subst $(whitespace),$(comma),$(build_tags))
 
 # process linker flags
 
-ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=osmosis \
-		  -X github.com/cosmos/cosmos-sdk/version.AppName=osmosisd \
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=symphony \
+		  -X github.com/cosmos/cosmos-sdk/version.AppName=symphonyd \
 		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
 		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
 		  -X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)"
@@ -142,10 +142,10 @@ endif
 
 build: build-check-version go.sum
 	mkdir -p $(BUILDDIR)/
-	GOWORK=off go build -mod=readonly  $(BUILD_FLAGS) -o $(BUILDDIR)/ $(GO_MODULE)/cmd/osmosisd
+	GOWORK=off go build -mod=readonly -buildvcs=false $(BUILD_FLAGS) -o $(BUILDDIR)/ $(GO_MODULE)/cmd/symphonyd
 
 install: build-check-version go.sum
-	GOWORK=off go install -mod=readonly $(BUILD_FLAGS) $(GO_MODULE)/cmd/osmosisd
+	GOWORK=off go install -mod=readonly $(BUILD_FLAGS) $(GO_MODULE)/cmd/symphonyd
 
 ###############################################################################
 ###                                Gen                                      ###
@@ -178,7 +178,7 @@ redis-stop:
 
 sqs-start:
 	./scripts/debug_builder.sh
-	build/osmosisd start
+	build/symphonyd start
 
 sqs-load-test-ui:
 	docker compose -f ingest/sqs/locust/docker-compose.yml up --scale worker=4
@@ -221,8 +221,8 @@ release:
 		-e GITHUB_TOKEN=$(GITHUB_TOKEN) \
 		-e COSMWASM_VERSION=$(COSMWASM_VERSION) \
 		-v /var/run/docker.sock:/var/run/docker.sock \
-		-v `pwd`:/go/src/osmosisd \
-		-w /go/src/osmosisd \
+		-v `pwd`:/go/src/symphonyd \
+		-w /go/src/symphonyd \
 		$(GORELEASER_IMAGE) \
 		release \
 		--clean

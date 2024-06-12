@@ -5,10 +5,12 @@ import (
 
 	"github.com/cometbft/cometbft/crypto/secp256k1"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
+	"github.com/osmosis-labs/osmosis/v23/app/apptesting/assets"
+	"github.com/stretchr/testify/suite"
+
 	"github.com/osmosis-labs/osmosis/v23/app/apptesting"
 	appparams "github.com/osmosis-labs/osmosis/v23/app/params"
 	tokenfactorytypes "github.com/osmosis-labs/osmosis/v23/x/tokenfactory/types"
-	"github.com/stretchr/testify/suite"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
@@ -19,7 +21,7 @@ var (
 
 	InitTokens    = sdk.TokensFromConsensusPower(200, sdk.DefaultPowerReduction)
 	InitBaseCoins = sdk.NewCoins(sdk.NewCoin(appparams.BaseCoinUnit, InitTokens))
-	InitUSDRCoins = sdk.NewCoins(sdk.NewCoin(appparams.MicroSDRDenom, InitTokens))
+	InitUSDRCoins = sdk.NewCoins(sdk.NewCoin(assets.MicroSDRDenom, InitTokens))
 
 	FaucetAccountName = tokenfactorytypes.ModuleName
 )
@@ -35,11 +37,11 @@ func TestKeeperTestSuite(t *testing.T) {
 func (s *KeeperTestSuite) SetupTest() {
 	s.Setup()
 
-	// Set the bond denom to be uosmo to make volume tracking tests more readable.
+	// Set the bond denom to be note to make volume tracking tests more readable.
 	skParams := s.App.StakingKeeper.GetParams(s.Ctx)
-	skParams.BondDenom = "uosmo"
+	skParams.BondDenom = "note"
 	s.App.StakingKeeper.SetParams(s.Ctx, skParams)
-	s.App.TxFeesKeeper.SetBaseDenom(s.Ctx, "uosmo")
+	s.App.TxFeesKeeper.SetBaseDenom(s.Ctx, "note")
 	marketParams := s.App.MarketKeeper.GetParams(s.Ctx)
 	s.App.MarketKeeper.SetParams(s.Ctx, marketParams)
 
@@ -51,47 +53,4 @@ func (s *KeeperTestSuite) SetupTest() {
 
 	err = s.App.BankKeeper.SendCoinsFromModuleToAccount(s.Ctx, FaucetAccountName, Addr, InitBaseCoins)
 	s.Require().NoError(err)
-}
-
-func (s *KeeperTestSuite) TestOsmosisPoolDeltaUpdate() {
-	terraPoolDelta := s.App.MarketKeeper.GetOsmosisPoolDelta(s.Ctx)
-	s.Require().Equal(sdk.ZeroDec(), terraPoolDelta)
-
-	diff := sdk.NewDec(10)
-	s.App.MarketKeeper.SetOsmosisPoolDelta(s.Ctx, diff)
-
-	terraPoolDelta = s.App.MarketKeeper.GetOsmosisPoolDelta(s.Ctx)
-	s.Require().Equal(diff, terraPoolDelta)
-}
-
-// TestReplenishPools tests that
-// each pools move towards base pool
-func (s *KeeperTestSuite) TestReplenishPools() {
-	s.App.OracleKeeper.SetOsmoExchangeRate(s.Ctx, appparams.StakeDenom, sdk.OneDec())
-
-	basePool := s.App.MarketKeeper.BasePool(s.Ctx)
-	terraPoolDelta := s.App.MarketKeeper.GetOsmosisPoolDelta(s.Ctx)
-	s.Require().True(terraPoolDelta.IsZero())
-
-	// Positive delta
-	diff := basePool.QuoInt64((int64)(appparams.BlocksPerDay))
-	s.App.MarketKeeper.SetOsmosisPoolDelta(s.Ctx, diff)
-
-	s.App.MarketKeeper.ReplenishPools(s.Ctx)
-
-	terraPoolDelta = s.App.MarketKeeper.GetOsmosisPoolDelta(s.Ctx)
-	replenishAmt := diff.QuoInt64((int64)(s.App.MarketKeeper.PoolRecoveryPeriod(s.Ctx)))
-	expectedDelta := diff.Sub(replenishAmt)
-	s.Require().Equal(expectedDelta, terraPoolDelta)
-
-	// Negative delta
-	diff = diff.Neg()
-	s.App.MarketKeeper.SetOsmosisPoolDelta(s.Ctx, diff)
-
-	s.App.MarketKeeper.ReplenishPools(s.Ctx)
-
-	osmosisPoolDelta := s.App.MarketKeeper.GetOsmosisPoolDelta(s.Ctx)
-	replenishAmt = diff.QuoInt64((int64)(s.App.MarketKeeper.PoolRecoveryPeriod(s.Ctx)))
-	expectedDelta = diff.Sub(replenishAmt)
-	s.Require().Equal(expectedDelta, osmosisPoolDelta)
 }

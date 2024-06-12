@@ -11,18 +11,20 @@ import (
 )
 
 const (
-	HumanCoinUnit = "osmo"
-	BaseCoinUnit  = "uosmo"
-	OsmoExponent  = 6
+	HumanCoinUnit  = "melody"
+	BaseCoinUnit   = "note"
+	MelodyExponent = 6
 
 	DefaultBondDenom = BaseCoinUnit
 
 	// Bech32PrefixAccAddr defines the Bech32 prefix of an account's address.
-	Bech32PrefixAccAddr = "osmo"
+	Bech32PrefixAccAddr = "symphony"
 )
 
+const MicroUnit = int64(1e6)
+
 const (
-	BlocksPerMinute = uint64(10)
+	BlocksPerMinute = uint64(15)
 	BlocksPerHour   = BlocksPerMinute * 60
 	BlocksPerDay    = BlocksPerHour * 24
 	BlocksPerWeek   = BlocksPerDay * 7
@@ -59,7 +61,7 @@ func RegisterDenoms() {
 	if err != nil {
 		panic(err)
 	}
-	err = sdk.RegisterDenom(BaseCoinUnit, osmomath.NewDecWithPrec(1, OsmoExponent))
+	err = sdk.RegisterDenom(BaseCoinUnit, osmomath.NewDecWithPrec(1, MelodyExponent))
 	if err != nil {
 		panic(err)
 	}
