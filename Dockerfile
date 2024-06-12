@@ -70,6 +70,11 @@ RUN sudo apt-get update && \
     sudo nginx -t && \
     sudo systemctl reload nginx
 
+# requires user interaction
+# RUN sudo apt update && \
+#     sudo apt install certbot python3-certbot-nginx && \
+#     sudo certbot --nginx -d lcd.testnet.node2.symphonychain.org -d rpc.testnet.node2.symphonychain.org -d lcd.testnet.symphonychain.org -d rpc.testnet.symphonychain.org
+
 # Configure iptables
 RUN sudo iptables -A INPUT -p tcp --dport 26654 -s 127.0.0.1 -j ACCEPT && \
     sudo iptables -A INPUT -p tcp --dport 26654 -j DROP && \
