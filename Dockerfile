@@ -79,7 +79,9 @@ RUN sudo apt-get update && \
 RUN sudo iptables -A INPUT -p tcp --dport 26654 -s 127.0.0.1 -j ACCEPT && \
     sudo iptables -A INPUT -p tcp --dport 26654 -j DROP && \
     sudo iptables -A INPUT -p tcp --dport 1317 -s 127.0.0.1 -j ACCEPT && \
-    sudo iptables -A INPUT -p tcp --dport 1317 -j DROP
+    sudo iptables -A INPUT -p tcp --dport 1317 -j DROP && \
+    sudo iptables -A INPUT -p tcp --dport 9090 -s 127.0.0.1 -j ACCEPT && \
+    sudo iptables -A INPUT -p tcp --dport 9090 -j DROP
 
 ENV HOME /osmosis
 WORKDIR $HOME
