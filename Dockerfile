@@ -62,12 +62,33 @@ FROM ${RUNNER_IMAGE}
 
 COPY --from=builder /osmosis/build/symphonyd /bin/symphonyd
 
+# Install necessary packages and configure nginx
+RUN sudo apt-get update && \
+    sudo apt-get install -y nginx && \
+    sudo cp ./symphonychain.conf /etc/nginx/sites-available/symphonychain.conf && \
+    sudo ln -s /etc/nginx/sites-available/symphonychain.conf /etc/nginx/sites-enabled/ && \
+    sudo nginx -t && \
+    sudo systemctl reload nginx
+
+# requires user interaction
+# RUN sudo apt update && \
+#     sudo apt install certbot python3-certbot-nginx && \
+#     sudo certbot --nginx -d lcd.testnet.node2.symphonychain.org -d rpc.testnet.node2.symphonychain.org -d lcd.testnet.symphonychain.org -d rpc.testnet.symphonychain.org
+
+# Configure iptables
+RUN sudo iptables -A INPUT -p tcp --dport 26654 -s 127.0.0.1 -j ACCEPT && \
+    sudo iptables -A INPUT -p tcp --dport 26654 -j DROP && \
+    sudo iptables -A INPUT -p tcp --dport 1317 -s 127.0.0.1 -j ACCEPT && \
+    sudo iptables -A INPUT -p tcp --dport 1317 -j DROP && \
+    sudo iptables -A INPUT -p tcp --dport 9090 -j ACCEPT
+
 ENV HOME /osmosis
 WORKDIR $HOME
 
 EXPOSE 26656
 EXPOSE 26657
 EXPOSE 1317
+EXPOSE 9090
 # Note: uncomment the line below if you need pprof in localosmosis
 # We disable it by default in out main Dockerfile for security reasons
 # EXPOSE 6060
