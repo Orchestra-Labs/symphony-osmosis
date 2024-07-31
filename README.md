@@ -5,17 +5,17 @@
 [![Project Status: Active -- The project has reached a stable, usable
 state and is being actively
 developed.](https://img.shields.io/badge/repo%20status-Active-green.svg?style=flat-square)](https://www.repostatus.org/#active)
-[![GoDoc](https://img.shields.io/badge/godoc-reference-blue?style=flat-square&logo=go)](https://pkg.go.dev/github.com/osmosis-labs/osmosis/v11)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-blue?style=flat-square&logo=go)](https://pkg.go.dev/github.com/Orchestra-Labs/symphony/v11)
 [![Go Report
-Card](https://goreportcard.com/badge/github.com/osmosis-labs/osmosis?style=flat-square)](https://goreportcard.com/report/github.com/osmosis-labs/osmosis/v11)
-[![Version](https://img.shields.io/github/tag/osmosis-labs/osmosis.svg?style=flat-square)](https://github.com/osmosis-labs/osmosis/releases/latest)
+Card](https://goreportcard.com/badge/github.com/Orchestra-Labs/symphony?style=flat-square)](https://goreportcard.com/report/github.com/Orchestra-Labs/symphony/v11)
+[![Version](https://img.shields.io/github/tag/Orchestra-Labs/symphony.svg?style=flat-square)](https://github.com/Orchestra-Labs/symphony/releases/latest)
 [![License:
-Apache-2.0](https://img.shields.io/github/license/osmosis-labs/osmosis.svg?style=flat-square)](https://github.com/osmosis-labs/osmosis/blob/main/LICENSE)
+Apache-2.0](https://img.shields.io/github/license/Orchestra-Labs/symphony.svg?style=flat-square)](https://github.com/Orchestra-Labs/symphony/blob/main/LICENSE)
 [![Lines Of
-Code](https://img.shields.io/tokei/lines/github/osmosis-labs/osmosis?style=flat-square)](https://github.com/osmosis-labs/osmosis)
+Code](https://img.shields.io/tokei/lines/github/Orchestra-Labs/symphony?style=flat-square)](https://github.com/Orchestra-Labs/symphony)
 [![GitHub
-Super-Linter](https://img.shields.io/github/actions/workflow/status/osmosis-labs/osmosis/lint.yml?style=flat-square&label=Lint)](https://github.com/marketplace/actions/super-linter)
-[![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/osmosis)
+Super-Linter](https://img.shields.io/github/actions/workflow/status/Orchestra-Labs/symphony/lint.yml?style=flat-square&label=Lint)](https://github.com/marketplace/actions/super-linter)
+[![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/qEBPwncrSV)
 
 Symphony offers truly decentralized tokenization of real-world assets (RWAs), with safeguards that ensure successful scaling down to zero, withdrawing all users at value properly and securely. Symphony provides a robust and secure platform for the tokenization of assets such as real estate, commodities, and other tangible assets, allowing users to invest and trade these assets in a decentralized manner.
 
@@ -42,25 +42,25 @@ may find that it is not highly performant or prone to crashing.
 For the most up to date documentation please visit
 [orchestralabs.org/documentation](https://orchestralabs.org/documentation/)
 
-## Joining the Mainnet
+## Joining the Testnet
 
-[Please visit the official instructions on how to join the Mainnet
-here.](https://docs.osmosis.zone/overview/validate/joining-mainnet)
+[If you are a validator, please visit the official instructions on how to create a validator on the Testnet
+here.](https://orchestralabs.org/documentation/developers/validators)
 
 Thank you for supporting a healthy blockchain network and community by
-running an Osmosis node!
+running an Symphony node!
 
 ## Contributing
 
 The contributing guide for Symphony explains the branching structure, how
 to use the SDK fork, and how to make / test updates to SDK branches.
 
-## LocalOsmosis
+## LocalSymphony
 
-LocalOsmosis is a containerized local Osmosis testnet used for trying out new features locally.
-LocalOsmosis documentation can be found [here](https://github.com/osmosis-labs/osmosis/tree/main/tests/localosmosis)
+LocalSymphony is a containerized local Symphony testnet used for trying out new features locally.
+LocalSymphony documentation can be found [here](https://github.com/Orchestra-Labs/symphony/tree/main/tests/localosmosis)
 
-To utilize LocalOsmosis, follow these steps:
+To utilize LocalSymphony, follow these steps:
 
 1. **Build the project:**
 
@@ -96,4 +96,4 @@ To utilize LocalOsmosis, follow these steps:
    symphonyd start --home=$HOME/.symphonyd/validator1
    ```
 
-These steps ensure the proper setup and execution of LocalOsmosis for your use.
+These steps ensure the proper setup and execution of LocalSymphony for your use.
