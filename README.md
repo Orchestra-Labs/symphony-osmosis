@@ -17,11 +17,11 @@ Code](https://img.shields.io/tokei/lines/github/osmosis-labs/osmosis?style=flat-
 Super-Linter](https://img.shields.io/github/actions/workflow/status/osmosis-labs/osmosis/lint.yml?style=flat-square&label=Lint)](https://github.com/marketplace/actions/super-linter)
 [![Discord](https://badgen.net/badge/icon/discord?icon=discord&label)](https://discord.gg/osmosis)
 
-As the largest DEX in the Cosmos, Osmosis is a source of liquidity for over 50 sovereign blockchains connected via IBC. Pioneering in its approach, Osmosis offers a dynamic trading and liquidity provision experience, integrating non-IBC assets from other ecosystems, including: Bitcoin, Ethereum, Solana, Avalanche, and Polkadot. Initially adopting Balancer-style pools, Osmosis now also features a concentrated liquidity model that is orders of magnitude more capital efficient, meaning that significantly less liquidity is required to handle the same amount of trading volume with minimal slippage.
+Symphony offers truly decentralized tokenization of real-world assets (RWAs), with safeguards that ensure successful scaling down to zero, withdrawing all users at value properly and securely. Symphony provides a robust and secure platform for the tokenization of assets such as real estate, commodities, and other tangible assets, allowing users to invest and trade these assets in a decentralized manner.
 
-As a true Layer 1 appchain, Osmosis has greater control over the full blockchain stack than traditional smart contract DEXs, which must follow the code of the parent chain that it is built on. This fine-grained control has enabled, for example, the development of Superfluid Staking, an extension of Proof of Stake that allows assets at the application layer to be staked to secure the chain. The customizability of appchains also allows implementing features like the Protocol Revenue module, which enables Osmosis to conduct on-chain cyclic arbitrage on behalf of OSMO stakers, balancing prices across pools while generating real yield revenue from this volume. Additionally, as a sovereign appchain, Osmosis governance can vote on upgrades to the protocol. One example of this was the introduction of a Taker Fee, which switched on the collection of exchange fees to generate a diverse yield from Osmosis volume and distribute it to OSMO stakers.
+As a true Layer 1 appchain, Symphony has greater control over the full blockchain stack than traditional smart contract platforms, which must follow the code of the parent chain. This fine-grained control has enabled the development of unique features that enhance security and scalability. The customizability of appchains allows Symphony to implement advanced safeguards and mechanisms to ensure that users' assets are always protected.
 
-Osmosis is bringing the centralized exchange experience to the decentralized world by building a cross-chain DEX and trading suite that aims to interconnect all chains via IBC. To reach this goal, Osmosis hosts an ever-expanding suite of DeFi applications, including: lending/borrowing, margin trading, strategy vaults, perpetuals, fiat on-ramping, NFTs, stablecoins, etc.—all of the functionalities that centralized exchanges offer, and more, but in the trust-minimized environment of decentralized finance.
+Symphony is bringing the decentralized finance (DeFi) experience to the world of real-world assets by building a platform that aims to integrate various asset classes into the blockchain ecosystem. To reach this goal, Symphony hosts an ever-expanding suite of DeFi applications, including lending/borrowing, staking, DEXs, etc. - providing all the functionalities that traditional financial systems offer, but in a trust-minimized and decentralized environment.
 
 ## System Requirements
 
@@ -34,13 +34,13 @@ to be comfortable:
 - 1TB NVMe Storage
 - 100MBPS bidirectional internet connection
 
-You can run Osmosis on lower-spec hardware for each component, but you
+You can run Symphony on lower-spec hardware for each component, but you
 may find that it is not highly performant or prone to crashing.
 
 ## Documentation
 
 For the most up to date documentation please visit
-[docs.osmosis.zone](https://docs.osmosis.zone/)
+[orchestralabs.org/documentation](https://orchestralabs.org/documentation/)
 
 ## Joining the Mainnet
 
@@ -52,7 +52,7 @@ running an Osmosis node!
 
 ## Contributing
 
-The contributing guide for Osmosis explains the branching structure, how
+The contributing guide for Symphony explains the branching structure, how
 to use the SDK fork, and how to make / test updates to SDK branches.
 
 ## LocalOsmosis
